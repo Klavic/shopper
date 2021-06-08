@@ -1,0 +1,1 @@
+getGraphQlAtributes = const atributesRequest = info.fieldNodes[0].selectionSet?.selections.map((selection: any) => selection?.name.value);

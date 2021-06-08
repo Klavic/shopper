@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  itemcatalogue-db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: itemCatalogue
+      POSTGRES_PASSWORD: "postgres"
+    ports:
+      - 5433:5432
+    volumes:
+      - itemcatalogue-db-data:/var/lib/postgresql/data
+
+  itemcatalogue:
+    build: 
+        context: ./apis/itemCatalogue
+        dockerfile: dockerfile
+    command: npm run dev
+    user: node
+    environment:
+      DBHOST: itemcatalogue-db
+    ports:
+      - 3000:3000
+    working_dir: /apis/app
+    volumes:
+      - ./apis/itemCatalogue:/apis/app
+    links: 
+      - itemcatalogue-db
+    depends_on: 
+      - itemcatalogue-db
+
+volumes:
+  itemcatalogue-db-data:
